@@ -1,0 +1,23 @@
+@import url("https://fonts.googleapis.com/css2?family=Barlow:wght@400;600;700&family=Inter:wght@300;400;500;600;700;800;900&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  .ellipse {
+    @apply w-4 h-4;
+  }
+  .pink {
+    @apply bg-[#ED8077] w-4 h-4 rounded-full;
+  }
+  .blue {
+    @apply bg-[#4487C5] w-4 h-4 rounded-full;
+  }
+  .green {
+    @apply bg-[#5EB5A6] w-4 h-4 rounded-full;
+  }
+  .yellow {
+    @apply bg-[#A1AF2F] w-4 h-4 rounded-full;
+  }
+}
