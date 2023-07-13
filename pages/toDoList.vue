@@ -13,7 +13,6 @@
             <div class="plus">➕</div>
             <div class="add-assignment">課題の追加...</div>
           </div>
-
           <div>
             <CardComponent />
             <CardComponent />
