@@ -1,76 +1,87 @@
 <template>
   <div class="container">
-    <Dropdown />
-    <div class="task-list">
-      <div class="todo">
-        <div class="assignment-title">
-          <div class="ellipse pink"></div>
-          <div class="text-title">未対応</div>
-          <div class="badge-number">10</div>
-        </div>
-        <div class="rectangle">
-          <div class="assignment-text">
-            <div class="plus">➕</div>
-            <div class="add-assignment">課題の追加...</div>
+    <div class="inner-container">
+      <div class="content">
+        <Dropdown />
+        <div class="task-list">
+          <div class="todo">
+            <div class="assignment-title">
+              <div class="ellipse pink"></div>
+              <div class="text-title">未対応</div>
+              <div class="badge-number">10</div>
+            </div>
+            <div class="rectangle">
+              <div class="assignment-text">
+                <div class="plus">➕</div>
+                <div class="add-assignment">課題の追加...</div>
+              </div>
+              <div>
+                <CardComponent />
+                <CardComponent />
+                <CardComponent />
+                <CardComponent />
+                <CardComponent />
+                <CardComponent />
+                <CardComponent />
+                <CardComponent />
+                <CardComponent />
+                <CardComponent />
+              </div>
+            </div>
           </div>
-          <div>
-            <CardComponent />
-            <CardComponent />
-            <CardComponent />
-          </div>
-        </div>
-      </div>
-      <div class="todo">
-        <div class="assignment-title">
-          <div class="ellipse blue"></div>
-          <div class="text-title">処理中</div>
-          <div class="badge-number">1</div>
-        </div>
-        <div class="rectangle">
-          <div class="assignment-text">
-            <div class="plus">➕</div>
-            <div class="add-assignment">課題の追加...</div>
-          </div>
+          <div class="todo">
+            <div class="assignment-title">
+              <div class="ellipse blue"></div>
+              <div class="text-title">処理中</div>
+              <div class="badge-number">1</div>
+            </div>
+            <div class="rectangle">
+              <div class="assignment-text">
+                <div class="plus">➕</div>
+                <div class="add-assignment">課題の追加...</div>
+              </div>
 
-          <div>
-            <CardComponent />
+              <div>
+                <CardComponent />
+              </div>
+            </div>
           </div>
-        </div>
-      </div>
-      <div class="todo">
-        <div class="assignment-title">
-          <div class="ellipse green"></div>
-          <div class="text-title">レビ</div>
-          <div class="badge-number">2</div>
-        </div>
-        <div class="rectangle">
-          <div class="assignment-text">
-            <div class="plus">➕</div>
-            <div class="add-assignment">課題の追加...</div>
-          </div>
+          <div class="todo">
+            <div class="assignment-title">
+              <div class="ellipse green"></div>
+              <div class="text-title">レビ</div>
+              <div class="badge-number">2</div>
+            </div>
+            <div class="rectangle">
+              <div class="assignment-text">
+                <div class="plus">➕</div>
+                <div class="add-assignment">課題の追加...</div>
+              </div>
 
-          <div>
-            <CardComponent />
-            <CardComponent />
+              <div>
+                <CardComponent />
+                <CardComponent />
+              </div>
+            </div>
           </div>
-        </div>
-      </div>
-      <div class="todo">
-        <div class="assignment-title">
-          <div class="ellipse yellow"></div>
-          <div class="text-title">完了</div>
-          <div class="badge-number">3</div>
-        </div>
-        <div class="rectangle">
-          <div class="assignment-text">
-            <div class="plus">➕</div>
-            <div class="add-assignment">課題の追加...</div>
-          </div>
+          <div class="todo">
+            <div class="assignment-title">
+              <div class="ellipse yellow"></div>
+              <div class="text-title">完了</div>
+              <div class="badge-number">3</div>
+            </div>
+            <div class="rectangle">
+              <div class="assignment-text">
+                <div class="plus">➕</div>
+                <div class="add-assignment">課題の追加...</div>
+              </div>
 
-          <div>
-            <CardComponent />
-            <CardComponent />
-            <CardComponent />
+              <div>
+                <CardComponent />
+                <CardComponent />
+                <CardComponent />
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -87,6 +98,7 @@ import Component2 from "../components/CardComponent.vue";
 .task-list {
   display: flex;
   align-items: center;
+  width: 100%;
 }
 .todo {
   margin-right: 40px;
@@ -128,14 +140,26 @@ import Component2 from "../components/CardComponent.vue";
   margin-bottom: 10px;
 }
 .rectangle {
-  width: 250px;
+  width: 100%;
   height: 574px;
   background: white;
   border-radius: 3px;
   padding: 10px;
+  overflow-y: auto;
+
+  white-space: nowrap;
 }
 .container {
-  padding: 41px 0 0 58px;
+  width: 100%;
+  overflow-x: auto;
+  white-space: nowrap;
+}
+.inner-container {
+  padding: 41px;
+  padding-top: 58px;
+}
+.content {
+  display: inline-block;
 }
 .text-title {
   width: 57px;
