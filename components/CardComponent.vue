@@ -43,7 +43,7 @@
         word-wrap: break-word;
       "
     >
-      タスクの追加機能
+      {{ item.title }}
     </div>
     <div
       class="Rectangle95"
@@ -108,6 +108,19 @@
   </div>
 </template>
 
-<script setup></script>
+<script>
+export default {
+  props: {
+    item: {
+      type: Object,
+      required: true,
+    },
+  },
+};
+</script>
 
-<style scoped></style>
+<style scoped>
+.Component2 {
+  cursor: pointer;
+}
+</style>
