@@ -2,7 +2,6 @@
 
 @tailwind base;
 @tailwind components;
-@tailwind utilities;
 
 @layer components {
   .ellipse {
@@ -20,4 +19,37 @@
   .yellow {
     @apply bg-[#A1AF2F] w-4 h-4 rounded-full;
   }
+
+  .todo {
+    margin-right: 40px;
+  }
+
+  .assignment-title {
+    display: flex;
+    align-items: center;
+    margin-bottom: 11px;
+  }
+  .text-title {
+    height: 25px;
+    color: black;
+    font-size: 16px;
+    margin-left: 7px;
+    font-weight: 700;
+    word-wrap: break-word;
+    margin-right: 8px;
+  }
+  .badge-number {
+    width: 34px;
+    height: 21px;
+    text-align: center;
+    color: black;
+    font-size: 14px;
+    font-family: Inter;
+    font-weight: 700;
+    word-wrap: break-word;
+    background-color: #d9d9d9;
+    border-radius: 15px;
+  }
 }
+
+@tailwind utilities;

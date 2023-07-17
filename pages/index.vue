@@ -5,11 +5,7 @@
         <Dropdown />
         <div class="task-list">
           <div class="todo">
-            <div class="assignment-title">
-              <div class="ellipse pink"></div>
-              <div class="text-title">未対応</div>
-              <div class="badge-number">10</div>
-            </div>
+            <AssignmentTitle1 />
             <div
               class="rectangle"
               @drop="onDrop($event, 1)"
@@ -28,23 +24,11 @@
                   @dragstart="startDrag($event, item)"
                 />
               </div>
-
-              <!-- <draggable v-model="cards1" :options="{group: 'cardsGroup'}">
-                <CardComponent
-                  :data="card"
-                  v-for="(card, index) in cards1"
-                  :key="index"
-                  draggable="true"
-                />
-              </draggable> -->
             </div>
           </div>
           <div class="todo">
-            <div class="assignment-title">
-              <div class="ellipse blue"></div>
-              <div class="text-title">処理中</div>
-              <div class="badge-number">1</div>
-            </div>
+            <AssignmentTitle2 />
+
             <div
               class="rectangle"
               @drop="onDrop($event, 2)"
@@ -62,23 +46,11 @@
                   @dragstart="startDrag($event, item)"
                 />
               </div>
-
-              <!-- <draggable v-model="cards2" :options="{group: 'cardsGroup'}">
-                <CardComponent
-                  :data="card"
-                  v-for="(card, index) in cards2"
-                  :key="index"
-                  draggable="true"
-                />
-              </draggable> -->
             </div>
           </div>
           <div class="todo">
-            <div class="assignment-title">
-              <div class="ellipse green"></div>
-              <div class="text-title">レビュー中</div>
-              <div class="badge-number">2</div>
-            </div>
+            <AssignmentTitle3 />
+
             <div
               class="rectangle"
               @drop="onDrop($event, 3)"
@@ -100,11 +72,8 @@
             </div>
           </div>
           <div class="todo">
-            <div class="assignment-title">
-              <div class="ellipse yellow"></div>
-              <div class="text-title">完了</div>
-              <div class="badge-number">3</div>
-            </div>
+            <AssignmentTitle4 />
+
             <div
               class="rectangle"
               @drop="onDrop($event, 4)"
@@ -134,109 +103,112 @@
 <script>
 import Dropdown from "../components/Dropdown.vue";
 import CardComponent from "../components/CardComponent.vue";
-import {ref} from "vue";
+import AssignmentTitle1 from "../components/AssignmentTitle1.vue";
+import AssignmentTitle2 from "../components/AssignmentTitle2.vue";
+import AssignmentTitle3 from "../components/AssignmentTitle3.vue";
+import AssignmentTitle4 from "../components/AssignmentTitle4.vue";
 export default {
-  setup() {
-    const items = ref([
-      {
-        id: 1,
-        title: "タスクの追加機能 1.1",
-        list: 1,
-      },
-      {
-        id: 2,
-        title: "タスクの追加機能 1.2",
-        list: 1,
-      },
-      {
-        id: 2,
-        title: "タスクの追加機能 1.3",
-        list: 1,
-      },
-      {
-        id: 3,
-        title: "タスクの追加機能 1.4",
-        list: 1,
-      },
-      {
-        id: 4,
-        title: "タスクの追加機能 1.5",
-        list: 1,
-      },
-      {
-        id: 5,
-        title: "タスクの追加機能 1.6",
-        list: 1,
-      },
-      {
-        id: 6,
-        title: "タスクの追加機能 1.7",
-        list: 1,
-      },
-      {
-        id: 7,
-        title: "タスクの追加機能 1.8",
-        list: 1,
-      },
-      {
-        id: 8,
-        title: "タスクの追加機能 1.9",
-        list: 1,
-      },
-      {
-        id: 9,
-        title: "タスクの追加機能 1.10",
-        list: 1,
-      },
-      {
-        id: 10,
-        title: "タスクの追加機能 2.1",
-        list: 2,
-      },
-      {
-        id: 11,
-        title: "タスクの追加機能 3.1",
-        list: 3,
-      },
-      {
-        id: 12,
-        title: "タスクの追加機能 3.2",
-        list: 3,
-      },
-      {
-        id: 13,
-        title: "タスクの追加機能 4.1",
-        list: 4,
-      },
-      {
-        id: 14,
-        title: "タスクの追加機能 4.2",
-        list: 4,
-      },
-      {
-        id: 15,
-        title: "タスクの追加機能 4.3",
-        list: 4,
-      },
-    ]);
-    const getList = (list) => {
-      return items.value.filter((item) => item.list == list);
+  data() {
+    return {
+      items: [
+        {
+          id: 1,
+          title: "タスクの追加機能 1.1",
+          list: 1,
+        },
+        {
+          id: 2,
+          title: "タスクの追加機能 1.2",
+          list: 1,
+        },
+        {
+          id: 3,
+          title: "タスクの追加機能 1.3",
+          list: 1,
+        },
+        {
+          id: 4,
+          title: "タスクの追加機能 1.4",
+          list: 1,
+        },
+        {
+          id: 5,
+          title: "タスクの追加機能 1.5",
+          list: 1,
+        },
+        {
+          id: 6,
+          title: "タスクの追加機能 1.6",
+          list: 1,
+        },
+        {
+          id: 7,
+          title: "タスクの追加機能 1.7",
+          list: 1,
+        },
+        {
+          id: 8,
+          title: "タスクの追加機能 1.8",
+          list: 1,
+        },
+        {
+          id: 9,
+          title: "タスクの追加機能 1.9",
+          list: 1,
+        },
+        {
+          id: 10,
+          title: "タスクの追加機能 1.10",
+          list: 1,
+        },
+        {
+          id: 11,
+          title: "タスクの追加機能 2.1",
+          list: 2,
+        },
+        {
+          id: 12,
+          title: "タスクの追加機能 3.1",
+          list: 3,
+        },
+        {
+          id: 13,
+          title: "タスクの追加機能 3.2",
+          list: 3,
+        },
+        {
+          id: 14,
+          title: "タスクの追加機能 4.1",
+          list: 4,
+        },
+        {
+          id: 15,
+          title: "タスクの追加機能 4.2",
+          list: 4,
+        },
+        {
+          id: 16,
+          title: "タスクの追加機能 4.3",
+          list: 4,
+        },
+      ],
     };
-
-    const startDrag = (event, item) => {
+  },
+  methods: {
+    getList(list) {
+      return this.items.filter((item) => item.list === list);
+    },
+    startDrag(event, item) {
       console.log(item);
       event.dataTransfer.dropEffect = "move";
       event.dataTransfer.effectAllowed = "move";
       event.dataTransfer.setData("itemID", item.id);
-    };
-
-    const onDrop = (event, list) => {
+    },
+    onDrop(event, list) {
       const itemID = event.dataTransfer.getData("itemID");
-      const item = items.value.find((item) => item.id == itemID);
+      const item = this.items.find((item) => item.id === Number(itemID));
       item.list = list;
-    };
-
-    return {getList, startDrag, onDrop};
+    },
   },
 };
 </script>
@@ -247,9 +219,9 @@ export default {
   align-items: center;
   width: 100%;
 }
-.todo {
+/* .todo {
   margin-right: 40px;
-}
+} */
 .add-assignment {
   display: flex;
   width: 70px;
@@ -308,31 +280,5 @@ export default {
 }
 .content {
   display: inline-block;
-}
-.text-title {
-  height: 25px;
-  color: black;
-  font-size: 16px;
-  margin-left: 7px;
-  font-weight: 700;
-  word-wrap: break-word;
-  margin-right: 8px;
-}
-.badge-number {
-  width: 34px;
-  height: 21px;
-  text-align: center;
-  color: black;
-  font-size: 14px;
-  font-family: Inter;
-  font-weight: 700;
-  word-wrap: break-word;
-  background-color: #d9d9d9;
-  border-radius: 15px;
-}
-.assignment-title {
-  display: flex;
-  align-items: center;
-  margin-bottom: 11px;
 }
 </style>
