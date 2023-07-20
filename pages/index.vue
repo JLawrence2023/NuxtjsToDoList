@@ -2,13 +2,14 @@
   <div class="container">
     <div class="inner-container">
       <div class="content">
-        <Dropdown />
+        <!-- <Dropdown /> -->
+        <Filter />
         <div class="task-list">
           <div class="todo">
             <div class="assignment-title">
               <div class="ellipse pink"></div>
               <div class="text-title">未対応</div>
-              <div class="badge-number">{{ getBadgeNumber(1) }}</div>
+              <div class="badge-number">{{ getBadgeNumber(column1) }}</div>
             </div>
             <div
               class="rectangle"
@@ -32,7 +33,7 @@
             <div class="assignment-title">
               <div class="ellipse blue"></div>
               <div class="text-title">処理中</div>
-              <div class="badge-number">{{ getBadgeNumber(2) }}</div>
+              <div class="badge-number">{{ getBadgeNumber(column2) }}</div>
             </div>
             <div
               class="rectangle"
@@ -55,7 +56,7 @@
             <div class="assignment-title">
               <div class="ellipse green"></div>
               <div class="text-title">レビュー中</div>
-              <div class="badge-number">{{ getBadgeNumber(3) }}</div>
+              <div class="badge-number">{{ getBadgeNumber(column3) }}</div>
             </div>
 
             <div
@@ -79,7 +80,7 @@
             <div class="assignment-title">
               <div class="ellipse yellow"></div>
               <div class="text-title">完了</div>
-              <div class="badge-number">{{ getBadgeNumber(4) }}</div>
+              <div class="badge-number">{{ getBadgeNumber(column4) }}</div>
             </div>
             <div
               class="rectangle"
@@ -105,9 +106,14 @@
 </template>
 
 <script>
-import Dropdown from "../components/Dropdown.vue";
+// import Dropdown from "../components/Dropdown.vue";
+import Filter from "../components/Filter.vue";
 import CardComponent from "../components/CardComponent.vue";
 import Modal from "../components/Modal.vue";
+import {column1} from "../utils/constants";
+import {column2} from "../utils/constants";
+import {column3} from "../utils/constants";
+import {column4} from "../utils/constants";
 export default {
   data() {
     return {
@@ -190,15 +196,12 @@ export default {
       this.title = "";
       this.selectedTags = [];
     },
-  },
-  computed: {
-    getBadgeNumber() {
-      return function (list) {
-        const itemsList = this.getList(list);
-        return itemsList.length;
-      };
+    getBadgeNumber(list) {
+      const itemsList = this.getList(list);
+      return itemsList.length;
     },
   },
+
   components: {
     Modal,
     CardComponent,
