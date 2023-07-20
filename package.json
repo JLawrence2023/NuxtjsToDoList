@@ -9,6 +9,7 @@
     "postinstall": "nuxt prepare"
   },
   "devDependencies": {
+    "@ant-design-vue/nuxt": "^1.0.1",
     "@nuxt/devtools": "latest",
     "@nuxt/types": "^2.17.0",
     "@nuxt/typescript-build": "^3.0.1",
