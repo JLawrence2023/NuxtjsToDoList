@@ -22,6 +22,7 @@
                 <CardComponent
                   :item="item"
                   :tag="item.tag"
+                  @reorder-tasks="reorderTasks"
                   draggable="true"
                   @dragstart="startDrag($event, item)"
                 />
@@ -46,6 +47,7 @@
                 <CardComponent
                   :item="item"
                   :tag="item.tag"
+                  @reorder-tasks="reorderTasks"
                   draggable="true"
                   @dragstart="startDrag($event, item)"
                 />
@@ -70,6 +72,8 @@
               <div v-for="item in getList(3)" :key="item.id">
                 <CardComponent
                   :item="item"
+                  :tag="item.tag"
+                  @reorder-tasks="reorderTasks"
                   draggable="true"
                   @dragstart="startDrag($event, item)"
                 />
@@ -93,6 +97,8 @@
               <div v-for="item in getList(4)" :key="item.id">
                 <CardComponent
                   :item="item"
+                  :tag="item.tag"
+                  @reorder-tasks="reorderTasks"
                   draggable="true"
                   @dragstart="startDrag($event, item)"
                 />
@@ -165,6 +171,18 @@ export default {
   },
 
   methods: {
+    reorderTasks(sourceItemID, targetItemID) {
+      const sourceIndex = this.items.findIndex(
+        (item) => item.id === Number(sourceItemID)
+      );
+      const targetIndex = this.items.findIndex(
+        (item) => item.id === Number(targetItemID)
+      );
+
+      if (sourceIndex !== -1 && targetIndex !== -1) {
+        this.items.splice(targetIndex, 0, this.items.splice(sourceIndex, 1)[0]);
+      }
+    },
     updateAllListNumbers() {
       this.allListNumbers = this.items.map((item) => item.list);
       this.allListNumbers.sort((a, b) => a - b);

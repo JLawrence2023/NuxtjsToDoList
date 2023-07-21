@@ -1,5 +1,11 @@
 <template>
-  <div class="new-task-container">
+  <div
+    class="new-task-container"
+    draggable="true"
+    @dragstart="startDrag($event, item)"
+    @dragover.prevent
+    @drop="drop($event, item)"
+  >
     <div class="task-title-container">
       <div class="task-title">{{ item.title }}</div>
     </div>
@@ -15,7 +21,22 @@
 <script>
 export default {
   props: {
-    item: Object, // Use explicit prop type for item
+    item: Object,
+  },
+  methods: {
+    startDrag(event, item) {
+      // Drag the entire container instead of just the text for better dragging experience
+      event.dataTransfer.effectAllowed = "move";
+      event.dataTransfer.setData("text/plain", ""); // Required for some browsers
+      event.dataTransfer.setData("itemID", item.id);
+    },
+    drop(event, item) {
+      event.preventDefault();
+      const sourceItemID = event.dataTransfer.getData("itemID");
+      if (sourceItemID !== item.id) {
+        this.$emit("reorder-tasks", sourceItemID, item.id);
+      }
+    },
   },
 };
 </script>
