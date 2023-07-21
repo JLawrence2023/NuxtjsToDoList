@@ -3,7 +3,7 @@
     <div class="inner-container">
       <div class="content">
         <!-- <Dropdown /> -->
-        <Filter />
+        <Filter :allTags="allTags" @tag-selected="onTagSelected" />
         <div class="task-list">
           <div class="todo">
             <div class="assignment-title">
@@ -114,12 +114,15 @@ import {column1} from "../utils/constants";
 import {column2} from "../utils/constants";
 import {column3} from "../utils/constants";
 import {column4} from "../utils/constants";
+import {customSort} from "../utils/constants";
 export default {
   data() {
     return {
       title: "", // Initialize the title data property
-      tags: ["tag1", "tag2", "tag3"], // Replace with your actual tags array
+      tags: ["tag1", "tag2", "tag3", "tag4"], // Replace with your actual tags array
       selectedTags: [], // Initialize the selectedTags data property as an array
+      allListNumbers: [], // Initialize allListNumbers data property as an array
+      allTags: [],
       items: [
         {
           id: 1,
@@ -127,11 +130,45 @@ export default {
           tag: ["tag1", "tag3"], // Store tags as an array
           list: 1,
         },
+        {
+          id: 2,
+          title: "Sample Task 2.1",
+          tag: ["tag1"], // Store tags as an array
+          list: 2,
+        },
+        {
+          id: 3,
+          title: "Sample Task 2.2",
+          tag: ["tag2"], // Store tags as an array
+          list: 2,
+        },
+        {
+          id: 4,
+          title: "Sample Task 3",
+          tag: ["tag3"], // Store tags as an array
+          list: 3,
+        },
+        {
+          id: 5,
+          title: "Sample Task 4.1",
+          tag: ["tag4"], // Store tags as an array
+          list: 4,
+        },
+        {
+          id: 6,
+          title: "Sample Task 4.2",
+          tag: ["tag4"], // Store tags as an array
+          list: 4,
+        },
       ],
     };
   },
 
   methods: {
+    updateAllListNumbers() {
+      this.allListNumbers = this.items.map((item) => item.list);
+      this.allListNumbers.sort((a, b) => a - b);
+    },
     createdTask(params) {
       // Handle the emitted event from Modal.vue and add the task to items
       this.items.push({
@@ -140,6 +177,8 @@ export default {
         tag: params.selectedTags, // Store selected tags as an array
         list: 1, // Replace with the appropriate list ID
       });
+      this.getAllTags();
+      this.updateAllListNumbers();
     },
     createdTask2(params) {
       // Handle the emitted event from Modal.vue and add the task to items
@@ -149,6 +188,8 @@ export default {
         tag: params.selectedTags, // Store selected tags as an array
         list: 2, // Replace with the appropriate list ID
       });
+      this.getAllTags();
+      this.updateAllListNumbers();
     },
     createdTask3(params) {
       // Handle the emitted event from Modal.vue and add the task to items
@@ -158,6 +199,8 @@ export default {
         tag: params.selectedTags, // Store selected tags as an array
         list: 3, // Replace with the appropriate list ID
       });
+      this.getAllTags();
+      this.updateAllListNumbers();
     },
     createdTask4(params) {
       // Handle the emitted event from Modal.vue and add the task to items
@@ -167,10 +210,18 @@ export default {
         tag: params.selectedTags, // Store selected tags as an array
         list: 4, // Replace with the appropriate list ID
       });
+      this.getAllTags();
+      this.updateAllListNumbers();
     },
 
     getList(list) {
-      return this.items.filter((item) => item.list === list);
+      // Filter the items based on the selected tags and list number
+      return this.items.filter(
+        (item) =>
+          item.list === list &&
+          (this.selectedTags.length === 0 ||
+            this.selectedTags.some((tag) => item.tag.includes(tag)))
+      );
     },
     startDrag(event, item) {
       console.log(item);
@@ -200,11 +251,38 @@ export default {
       const itemsList = this.getList(list);
       return itemsList.length;
     },
+    onTagSelected(selectedTags) {
+      // Handle the selected tags here
+      this.selectedTags = selectedTags;
+    },
+    // onTagSelected(tag) {
+    //   // Do something with the selected tag
+    //   console.log(`Selected Tag: ${tag}`);
+    // },
+    getAllTags() {
+      const uniqueTags = {};
+
+      for (const item of this.items) {
+        for (const tag of item.tag) {
+          uniqueTags[tag] = true;
+        }
+      }
+
+      this.allTags = customSort(Object.keys(uniqueTags));
+    },
+
+    // ... your other methods
+  },
+  created() {
+    // Call the method to log the sorted tags and list numbers when the component is created
+    this.getAllTags();
+    console.log("All Items:", this.items);
   },
 
   components: {
     Modal,
     CardComponent,
+    Filter,
   },
 };
 </script>
