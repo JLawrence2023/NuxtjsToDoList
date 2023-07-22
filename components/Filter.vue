@@ -3,7 +3,6 @@
     <div class="tag-desc">タグ</div>
     <div class="dropdown">
       <div class="selected-item" @click="toggleDropdown">
-        <!-- <span>{{ selectedItem || "" }}</span> -->
         <span
           class="arrow"
           :class="{'arrow-up': dropdownOpen, 'arrow-down': !dropdownOpen}"
@@ -14,6 +13,7 @@
         <div>
           <input
             class="search-input"
+            id="search-input"
             type="text"
             v-model="searchText"
             placeholder="タグを検索..."
@@ -24,11 +24,18 @@
             </button>
           </div>
           <div class="choose-tag">
-            <li v-for="tag in filteredTags" :key="tag" @click="selectTag(tag)">
+            <label v-for="tag in filteredTags" :key="tag">
+              <input
+                type="checkbox"
+                :value="tag"
+                v-model="selectedTags"
+                @change="handleTagSelection"
+              />
               {{ tag }}
               <span v-if="selectedTags.includes(tag)">✔️</span>
-            </li>
+            </label>
           </div>
+
           <div>
             <button type="submit" class="narrow-down" @click="handleNarrowDown">
               絞り込む
@@ -54,6 +61,7 @@ export default {
       selectedItem: null,
       selectedTags: [],
       searchText: "",
+      isFiltering: false,
     };
   },
 
@@ -66,13 +74,25 @@ export default {
     },
   },
   methods: {
+    handleTagSelection() {
+      // Close the dropdown after a tag is selected or unselected
+      this.dropdownOpen = true;
+
+      // Update the selectedItem to display selected tags in the dropdown
+      if (this.selectedTags.length > 0) {
+        this.selectedItem = this.selectedTags.join(", ");
+      } else {
+        this.selectedItem = null;
+      }
+    },
+
+    toggleDropdown() {
+      this.dropdownOpen = !this.dropdownOpen;
+    },
     handleNarrowDown() {
       // Log the selected tags in the console
       this.$emit("tag-selected", this.selectedTags);
-      console.log("Selected Tags:", this.selectedTags);
-    },
-    toggleDropdown() {
-      this.dropdownOpen = !this.dropdownOpen;
+      this.isFiltering = true;
     },
     selectTag(tag) {
       if (this.selectedTags.includes(tag)) {
@@ -91,17 +111,27 @@ export default {
       } else {
         this.selectedItem = null;
       }
+      this.isFiltering = true;
     },
     unselectAllTags() {
       // Clear the selectedTags array to unselect all tags
       this.selectedTags = [];
-      this.selectedItem = null; // Reset the selectedItem to remove the display of selected tags
+      this.selectedItem = null;
+      this.isFiltering = false;
     },
   },
 };
 </script>
 
 <style>
+.choose-tag label {
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+.choose-tag input[type="checkbox"] {
+  position: absolute;
+  left: -9999px;
+}
 .dropdown {
   position: relative;
   display: inline-block;
@@ -170,8 +200,6 @@ export default {
   margin-bottom: 20px;
 }
 .choose-tag {
-  /* font-size: 14px;
-  font-weight: 400; */
   height: 100px;
   overflow-y: auto;
   color: #000;
@@ -179,6 +207,10 @@ export default {
   font-size: 14px;
   font-style: normal;
   font-weight: 400;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  margin-left: 10px;
 }
 .narrow-down {
   display: flex;

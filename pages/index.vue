@@ -2,8 +2,11 @@
   <div class="container">
     <div class="inner-container">
       <div class="content">
-        <!-- <Dropdown /> -->
-        <Filter :allTags="allTags" @tag-selected="onTagSelected" />
+        <Filter
+          :allTags="allTags"
+          :isFiltering="isFiltering"
+          @tag-selected="onTagSelected"
+        />
         <div class="task-list">
           <div class="todo">
             <div class="assignment-title">
@@ -23,8 +26,9 @@
                   :item="item"
                   :tag="item.tag"
                   @reorder-tasks="reorderTasks"
-                  draggable="true"
                   @dragstart="startDrag($event, item)"
+                  @dragover.prevent="dragOver($event, item)"
+                  :isFiltering="isFiltering"
                 />
               </div>
             </div>
@@ -48,8 +52,8 @@
                   :item="item"
                   :tag="item.tag"
                   @reorder-tasks="reorderTasks"
-                  draggable="true"
                   @dragstart="startDrag($event, item)"
+                  :isFiltering="isFiltering"
                 />
               </div>
             </div>
@@ -74,8 +78,8 @@
                   :item="item"
                   :tag="item.tag"
                   @reorder-tasks="reorderTasks"
-                  draggable="true"
                   @dragstart="startDrag($event, item)"
+                  :isFiltering="isFiltering"
                 />
               </div>
             </div>
@@ -99,8 +103,8 @@
                   :item="item"
                   :tag="item.tag"
                   @reorder-tasks="reorderTasks"
-                  draggable="true"
                   @dragstart="startDrag($event, item)"
+                  :isFiltering="isFiltering"
                 />
               </div>
             </div>
@@ -112,7 +116,6 @@
 </template>
 
 <script>
-// import Dropdown from "../components/Dropdown.vue";
 import Filter from "../components/Filter.vue";
 import CardComponent from "../components/CardComponent.vue";
 import Modal from "../components/Modal.vue";
@@ -129,6 +132,7 @@ export default {
       selectedTags: [], // Initialize the selectedTags data property as an array
       allListNumbers: [], // Initialize allListNumbers data property as an array
       allTags: [],
+      isFiltering: false,
       items: [
         {
           id: 1,
@@ -164,6 +168,18 @@ export default {
           id: 6,
           title: "Sample Task 4.2",
           tag: ["tag4"], // Store tags as an array
+          list: 4,
+        },
+        {
+          id: 7,
+          title: "Sample Task 4.2",
+          tag: ["tag5"], // Store tags as an array
+          list: 4,
+        },
+        {
+          id: 8,
+          title: "Sample Task 4.2",
+          tag: ["tag6"], // Store tags as an array
           list: 4,
         },
       ],
@@ -252,6 +268,12 @@ export default {
       const item = this.items.find((item) => item.id === Number(itemID));
       item.list = list;
     },
+    dragOver(event, item) {
+      if (this.isFiltering) {
+        event.preventDefault(item); // Prevent dropping while filtering
+      }
+    },
+
     submitModal() {
       // Push the new task into the items array
       this.items.push({
@@ -271,6 +293,8 @@ export default {
     },
     onTagSelected(selectedTags) {
       // Handle the selected tags here
+
+      this.isFiltering = selectedTags.length > 0;
       this.selectedTags = selectedTags;
     },
     // onTagSelected(tag) {
@@ -294,7 +318,7 @@ export default {
   created() {
     // Call the method to log the sorted tags and list numbers when the component is created
     this.getAllTags();
-    console.log("All Items:", this.items);
+    // console.log("All Items:", this.items);
   },
 
   components: {

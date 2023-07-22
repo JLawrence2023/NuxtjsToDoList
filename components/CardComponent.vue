@@ -1,7 +1,7 @@
 <template>
   <div
     class="new-task-container"
-    draggable="true"
+    :draggable="isDraggable"
     @dragstart="startDrag($event, item)"
     @dragover.prevent
     @drop="drop($event, item)"
@@ -10,7 +10,6 @@
       <div class="task-title">{{ item.title }}</div>
     </div>
     <div class="new-tag-selected">
-      <!-- Use v-for to render each tag separately -->
       <div class="new-tag-name" v-for="tagItem in item.tag" :key="tagItem">
         {{ tagItem }}
       </div>
@@ -22,10 +21,20 @@
 export default {
   props: {
     item: Object,
+    isFiltering: {
+      type: Boolean,
+      required: true,
+    },
+  },
+  computed: {
+    isDraggable() {
+      // Return true for draggable when not filtering, false otherwise
+      return !this.isFiltering;
+    },
   },
   methods: {
     startDrag(event, item) {
-      // Drag the entire container instead of just the text for better dragging experience
+      // Drag the entire container instead of just the text for a better dragging experience
       event.dataTransfer.effectAllowed = "move";
       event.dataTransfer.setData("text/plain", ""); // Required for some browsers
       event.dataTransfer.setData("itemID", item.id);
