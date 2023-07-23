@@ -168,6 +168,7 @@ export default {
   width: 150px;
   height: 207px;
   z-index: 5;
+  overflow: hidden;
 }
 
 .dropdown-list li {
@@ -200,8 +201,7 @@ export default {
   margin-bottom: 20px;
 }
 .choose-tag {
-  height: 100px;
-  overflow-y: auto;
+  height: 105px;
   color: #000;
   font-family: Inter;
   font-size: 14px;
@@ -210,7 +210,8 @@ export default {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  margin-left: 10px;
+  margin-left: 7px;
+  overflow-y: auto;
 }
 .narrow-down {
   display: flex;
@@ -219,11 +220,15 @@ export default {
   background-color: black;
   color: white;
   width: 100%;
-  justify-content: center;
-  margin-top: 20px;
   font-size: 14px;
   font-style: normal;
   font-weight: 700;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
 }
 .unsellect-all-tag {
   margin-left: 7px;

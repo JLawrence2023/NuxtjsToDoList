@@ -55,14 +55,25 @@
                     v-model="newTag"
                     @keydown.enter="addNewTag"
                   />
-                  <button class="enter-new-tag" @click="addNewTag">作成</button>
+                  <button
+                    class="enter-new-tag"
+                    @click="addNewTag"
+                    :disabled="isTagAlreadyInList"
+                  >
+                    作成
+                  </button>
                 </div>
               </div>
             </div>
           </div>
           <div class="buttons">
             <button class="close-button" @click="closeModal">キャンセル</button>
-            <button class="submit-button" type="submit" @click="submitModal">
+            <button
+              class="submit-button"
+              type="submit"
+              @click="submitModal"
+              :disabled="isInputEmptyAndNoTagsSelected"
+            >
               追加
             </button>
           </div>
@@ -86,8 +97,19 @@ export default {
       newTag: "",
     };
   },
+  computed: {
+    isInputEmptyAndNoTagsSelected() {
+      return this.title.trim() === "" || this.selectedTags.length === 0;
+    },
+    isTagAlreadyInList() {
+      return this.tags.includes(this.newTag);
+    },
+  },
   methods: {
     submitModal() {
+      // Check if both input and tags are empty before submitting
+      if (this.isInputEmptyAndNoTagsSelected) return;
+
       this.$emit("created-task", {
         taskTitle: this.title,
         selectedTags: this.selectedTags,
@@ -95,6 +117,7 @@ export default {
       // Clear the input and selected tags after submission
       this.title = "";
       this.selectedTags = [];
+      this.closeModal(); // Close the modal after submission
     },
     handleModalClick(event) {
       if (event.target.classList.contains("modal")) {
@@ -108,11 +131,12 @@ export default {
       this.dropdownOpen = !this.dropdownOpen;
     },
     addNewTag() {
-      if (this.newTag.trim() !== "" && !this.tags.includes(this.newTag)) {
+      if (this.newTag.trim() !== "" && !this.isTagAlreadyInList) {
         this.tags.push(this.newTag);
         this.newTag = "";
       }
     },
+
     toggleTag(tag) {
       const index = this.selectedTags.indexOf(tag);
       if (index === -1) {
@@ -281,7 +305,7 @@ export default {
   font-size: 11px;
   font-style: normal;
   font-weight: 400;
-  text-align: center;
+  padding-left: 10px;
 }
 .enter-new-tag {
   background-color: #393939;

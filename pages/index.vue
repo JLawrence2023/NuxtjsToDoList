@@ -116,9 +116,9 @@
 </template>
 
 <script>
-import Filter from "../components/Filter.vue";
-import CardComponent from "../components/CardComponent.vue";
-import Modal from "../components/Modal.vue";
+import Filter from "../components/molecules/Filter.vue";
+import CardComponent from "../components/molecules/CardComponent.vue";
+import Modal from "../components/organisms/Modal.vue";
 import {column1} from "../utils/constants";
 import {column2} from "../utils/constants";
 import {column3} from "../utils/constants";
@@ -137,13 +137,13 @@ export default {
         {
           id: 1,
           title: "Sample Task 1",
-          tag: ["tag1", "tag3"], // Store tags as an array
+          tag: ["tag1", "tag2"], // Store tags as an array
           list: 1,
         },
         {
           id: 2,
           title: "Sample Task 2.1",
-          tag: ["tag1"], // Store tags as an array
+          tag: ["tag1", "tag3"], // Store tags as an array
           list: 2,
         },
         {
@@ -254,9 +254,10 @@ export default {
         (item) =>
           item.list === list &&
           (this.selectedTags.length === 0 ||
-            this.selectedTags.some((tag) => item.tag.includes(tag)))
+            this.selectedTags.every((tag) => item.tag.includes(tag)))
       );
     },
+
     startDrag(event, item) {
       console.log(item);
       event.dataTransfer.dropEffect = "move";
