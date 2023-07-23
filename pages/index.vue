@@ -116,8 +116,8 @@
 </template>
 
 <script>
-import Filter from "../components/molecules/Filter.vue";
-import CardComponent from "../components/molecules/CardComponent.vue";
+import Filter from "../components/organisms/Filter.vue";
+import CardComponent from "../components/organisms/CardComponent.vue";
 import Modal from "../components/organisms/Modal.vue";
 import {column1} from "../utils/constants";
 import {column2} from "../utils/constants";
