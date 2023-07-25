@@ -83,86 +83,81 @@
   </div>
 </template>
 
-<script setup></script>
+<script>
+// import {ref} from "vue";
 
-<script setup>
-import {ref, computed, onMounted, onBeforeUnmount, defineEmits} from "vue";
+export default {
+  data() {
+    return {
+      title: "", // Add title data property
+      selectedTags: [], // Add selectedTags data property
+      isOpen: false,
+      dropdownOpen: false,
+      tags: ["tag1", "tag2", "tag3"], // Replace with your actual tags array
+      newTag: "",
+    };
+  },
+  computed: {
+    isInputEmptyAndNoTagsSelected() {
+      return this.title.trim() === "" || this.selectedTags.length === 0;
+    },
+    isTagAlreadyInList() {
+      return this.tags.includes(this.newTag);
+    },
+  },
+  methods: {
+    submitModal() {
+      // Check if both input and tags are empty before submitting
+      if (this.isInputEmptyAndNoTagsSelected) return;
 
-// Data
-const title = ref("");
-const selectedTags = ref([]);
-const isOpen = ref(false);
-const dropdownOpen = ref(false);
-const tags = ref(["tag1", "tag2", "tag3"]); // Replace with your actual tags array
-const newTag = ref("");
+      this.$emit("created-task", {
+        taskTitle: this.title,
+        selectedTags: this.selectedTags,
+      });
+      // Clear the input and selected tags after submission
+      this.title = "";
+      this.selectedTags = [];
+      this.closeModal(); // Close the modal after submission
+    },
+    handleModalClick(event) {
+      if (event.target.classList.contains("modal")) {
+        this.closeModal();
+      }
+    },
+    closeModal() {
+      this.isOpen = false;
+    },
+    toggleDropdown() {
+      this.dropdownOpen = !this.dropdownOpen;
+    },
+    addNewTag() {
+      if (this.newTag.trim() !== "" && !this.isTagAlreadyInList) {
+        this.tags.push(this.newTag);
+        this.newTag = "";
+      }
+    },
 
-// Computed
-const isInputEmptyAndNoTagsSelected = computed(
-  () => title.value.trim() === "" || selectedTags.value.length === 0
-);
-const isTagAlreadyInList = computed(() => tags.value.includes(newTag.value));
-
-// Methods
-const emit = defineEmits();
-
-function submitModal() {
-  // Check if both input and tags are empty before submitting
-  if (isInputEmptyAndNoTagsSelected.value) return;
-
-  emit("created-task", {
-    taskTitle: title.value,
-    selectedTags: selectedTags.value,
-  });
-
-  // Clear the input and selected tags after submission
-  title.value = "";
-  selectedTags.value = [];
-  closeModal(); // Close the modal after submission
-}
-
-function handleModalClick(event) {
-  if (event.target.classList.contains("modal")) {
-    closeModal();
-  }
-}
-
-function closeModal() {
-  isOpen.value = false;
-}
-
-function toggleDropdown() {
-  dropdownOpen.value = !dropdownOpen.value;
-}
-
-function addNewTag() {
-  if (newTag.value.trim() !== "" && !isTagAlreadyInList.value) {
-    tags.value.push(newTag.value);
-    newTag.value = "";
-  }
-}
-
-function toggleTag(tag) {
-  const index = selectedTags.value.indexOf(tag);
-  if (index === -1) {
-    selectedTags.value.push(tag);
-  } else {
-    selectedTags.value.splice(index, 1);
-  }
-}
-
-function onEscKeyDown(event) {
-  if (event.key === "Escape") {
-    closeModal();
-  }
-}
-
-onMounted(() => {
-  window.addEventListener("keydown", onEscKeyDown);
-});
-
-onBeforeUnmount(() => {
-  window.removeEventListener("keydown", onEscKeyDown);
-});
+    toggleTag(tag) {
+      const index = this.selectedTags.indexOf(tag);
+      if (index === -1) {
+        this.selectedTags.push(tag);
+      } else {
+        this.selectedTags.splice(index, 1);
+      }
+    },
+    onEscKeyDown(event) {
+      if (event.key === "Escape") {
+        this.closeModal();
+      }
+    },
+  },
+  mounted() {
+    window.addEventListener("keydown", this.onEscKeyDown);
+  },
+  beforeUnmount() {
+    window.removeEventListener("keydown", this.onEscKeyDown);
+  },
+};
 </script>
 
 <style>

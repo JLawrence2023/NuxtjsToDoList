@@ -47,77 +47,80 @@
   </div>
 </template>
 
-<script setup>
-import {ref, computed, defineProps, defineEmits} from "vue";
+<script>
+export default {
+  props: {
+    allTags: {
+      type: Array,
+      required: true,
+    },
+  },
+  data() {
+    return {
+      dropdownOpen: false,
+      selectedItem: null,
+      selectedTags: [],
+      searchText: "",
+      isFiltering: false,
+    };
+  },
 
-// Props
-const {allTags} = defineProps(["allTags"]);
+  computed: {
+    filteredTags() {
+      // Use computed property to filter the tags based on the search input
+      return this.allTags.filter((tag) =>
+        tag.toLowerCase().includes(this.searchText.toLowerCase())
+      );
+    },
+  },
+  methods: {
+    handleTagSelection() {
+      // Close the dropdown after a tag is selected or unselected
+      this.dropdownOpen = true;
 
-// Data
-const dropdownOpen = ref(false);
-const selectedItem = ref(null);
-const selectedTags = ref([]);
-const searchText = ref("");
-const isFiltering = ref(false);
+      // Update the selectedItem to display selected tags in the dropdown
+      if (this.selectedTags.length > 0) {
+        this.selectedItem = this.selectedTags.join(", ");
+      } else {
+        this.selectedItem = null;
+      }
+    },
 
-// Computed
-const filteredTags = computed(() =>
-  allTags.filter((tag) =>
-    tag.toLowerCase().includes(searchText.value.toLowerCase())
-  )
-);
+    toggleDropdown() {
+      this.dropdownOpen = !this.dropdownOpen;
+    },
+    handleNarrowDown() {
+      // Log the selected tags in the console
+      this.$emit("tag-selected", this.selectedTags);
+      this.isFiltering = true;
+    },
+    selectTag(tag) {
+      if (this.selectedTags.includes(tag)) {
+        // If the tag is already selected, remove it from the selectedTags array
+        this.selectedTags = this.selectedTags.filter(
+          (selectedTag) => selectedTag !== tag
+        );
+      } else {
+        // If the tag is not selected, add it to the selectedTags array
+        this.selectedTags.push(tag);
+      }
 
-// Methods
-const emit = defineEmits(["tag-selected"]);
-
-function handleTagSelection() {
-  // Close the dropdown after a submit button is submit
-  dropdownOpen.value = true;
-
-  // Update the selectedItem to display selected tags in the dropdown
-  if (selectedTags.value.length > 0) {
-    selectedItem.value = selectedTags.value.join(", ");
-  } else {
-    selectedItem.value = null;
-  }
-}
-
-function toggleDropdown() {
-  dropdownOpen.value = !dropdownOpen.value;
-}
-
-function handleNarrowDown() {
-  // Log the selected tags in the console
-  emit("tag-selected", selectedTags.value);
-  isFiltering.value = true;
-}
-
-function selectTag(tag) {
-  if (selectedTags.value.includes(tag)) {
-    // If the tag is already selected, remove it from the selectedTags array
-    selectedTags.value = selectedTags.value.filter(
-      (selectedTag) => selectedTag !== tag
-    );
-  } else {
-    // If the tag is not selected, add it to the selectedTags array
-    selectedTags.value.push(tag);
-  }
-
-  // Update the selectedItem to display selected tags in the dropdown
-  if (selectedTags.value.length > 0) {
-    selectedItem.value = selectedTags.value.join(", ");
-  } else {
-    selectedItem.value = null;
-  }
-  isFiltering.value = true;
-}
-
-function unselectAllTags() {
-  // Clear the selectedTags array to unselect all tags
-  selectedTags.value = [];
-  selectedItem.value = null;
-  isFiltering.value = false;
-}
+      // Update the selectedItem to display selected tags in the dropdown
+      if (this.selectedTags.length > 0) {
+        this.selectedItem = this.selectedTags.join(", ");
+      } else {
+        this.selectedItem = null;
+      }
+      this.isFiltering = true;
+    },
+    unselectAllTags() {
+      // Clear the selectedTags array to unselect all tags
+      this.selectedTags = [];
+      this.selectedItem = null;
+      this.isFiltering = false;
+    },
+  },
+};
 </script>
 
 <style>
