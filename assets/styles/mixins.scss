@@ -1,0 +1,17 @@
+// Center an element absolutely both horizontally and vertically
+@mixin center-absolute {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+// Add a box shadow with customizable parameters
+@mixin box-shadow($x, $y, $blur, $color) {
+  box-shadow: $x $y $blur $color;
+}
+
+// Add a drop shadow with customizable parameters
+@mixin drop-shadow($x, $y, $blur, $color) {
+  filter: drop-shadow($x $y $blur $color);
+}
