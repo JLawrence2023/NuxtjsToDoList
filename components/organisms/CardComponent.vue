@@ -17,37 +17,31 @@
   </div>
 </template>
 
-<script>
-export default {
-  props: {
-    item: Object,
-    isFiltering: {
-      type: Boolean,
-      required: true,
-    },
-  },
-  computed: {
-    isDraggable() {
-      // Return true for draggable when not filtering, false otherwise
-      return !this.isFiltering;
-    },
-  },
-  methods: {
-    startDrag(event, item) {
-      // Drag the entire container instead of just the text for a better dragging experience
-      event.dataTransfer.effectAllowed = "move";
-      event.dataTransfer.setData("text/plain", ""); // Required for some browsers
-      event.dataTransfer.setData("itemID", item.id);
-    },
-    drop(event, item) {
-      event.preventDefault();
-      const sourceItemID = event.dataTransfer.getData("itemID");
-      if (sourceItemID !== item.id) {
-        this.$emit("reorder-tasks", sourceItemID, item.id);
-      }
-    },
-  },
-};
+<script setup>
+import {computed, defineProps, defineEmits} from "vue";
+
+// Props and data
+const {item, isFiltering} = defineProps(["item", "isFiltering"]);
+
+// Computed
+const isDraggable = computed(() => !isFiltering);
+
+// Methods
+const emit = defineEmits();
+
+function startDrag(event, item) {
+  event.dataTransfer.effectAllowed = "move";
+  event.dataTransfer.setData("text/plain", "");
+  event.dataTransfer.setData("itemID", item.id);
+}
+
+function drop(event, item) {
+  event.preventDefault();
+  const sourceItemID = event.dataTransfer.getData("itemID");
+  if (sourceItemID !== item.id) {
+    emit("reorder-tasks", sourceItemID, item.id);
+  }
+}
 </script>
 
 <style>
